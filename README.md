@@ -6,3 +6,10 @@
 ## Week 1
 ### 1.1 [원시타입, 객체 & 배열 & 튜플](https://hackmd.io/@qEGG2y5qSJeoFpoWLh1Dzw/HkyMhSbMle)
 
+### 1.2 [type & interface, 고급 타입](https://hackmd.io/@qEGG2y5qSJeoFpoWLh1Dzw/BJW2mPQzee)
+- type & interface
+- enum
+- any, unknown, void, never
+
+### 1.3 [교차타입, 유니온 타입](https://hackmd.io/@qEGG2y5qSJeoFpoWLh1Dzw/H15NIO4Mel)
+
