@@ -12,4 +12,5 @@
 - any, unknown, void, never
 
 ### 1.3 [교차타입, 유니온 타입](https://hackmd.io/@qEGG2y5qSJeoFpoWLh1Dzw/H15NIO4Mel)
-
+### 1.4 [제네릭 타입, 리터럴 타입](https://hackmd.io/@qEGG2y5qSJeoFpoWLh1Dzw/Bk3wtyLzll)
+### 1.5 [유틸리티 타입, Record 타입](https://hackmd.io/@qEGG2y5qSJeoFpoWLh1Dzw/SJ25fLvzlg)
