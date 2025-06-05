@@ -6,7 +6,7 @@ const LoadingSpinner = () => {
       display="flex"
       alignItems="center"
       justifyContent="center"
-      minHeight="200px"
+      height="100%"
     >
       <CircularProgress size={40} color="primary" />
     </Box>

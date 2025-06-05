@@ -3,12 +3,14 @@ import { Box, styled, Typography } from '@mui/material'
 import { NavLink, Outlet } from 'react-router'
 import React from 'react';
 import Library from './components/Library';
-const LibraryHead = React.lazy(() => import('./components/LibraryHead'));
+import Navbar from './components/Navbar';
+import LibraryHead from './components/LibraryHead';
 
 const Layout = styled("div")({
   display: "flex",
   height: "100vh",
   padding: "8px",
+  gap: "8px",
 });
 
 const Sidebar = styled("div")(({ theme }) => ({
@@ -76,7 +78,10 @@ const AppLayout = () => {
           <Library />
         </ContentBox>
       </Sidebar>
-      <Outlet />
+      <ContentBox>
+        <Navbar />
+        <Outlet />
+      </ContentBox>
     </Layout>
   )
 }
