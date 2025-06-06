@@ -1,8 +1,10 @@
-import { Box } from '@mui/material'
-import React from 'react'
+import { Avatar, Box } from '@mui/material'
 import LoginButton from '../../common/components/LoginButton'
+import useGetCurrentUserProfile from '../../hooks/useGetCurrentUserProfile'
 
 const Navbar = () => {
+  const {data: userProfile} = useGetCurrentUserProfile();
+
   return (
     <Box sx={{
         display: "flex",
@@ -10,7 +12,10 @@ const Navbar = () => {
         alignItems: "center",
         height: "64px",
     }}>
-        <LoginButton />
+      {userProfile
+      ? <Avatar src={userProfile?.images?.[0]?.url} alt={userProfile?.display_name || "User Profile"} />
+      : <LoginButton />
+      }
     </Box>
   )
 }
