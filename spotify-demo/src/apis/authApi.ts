@@ -57,3 +57,14 @@ export const exchangeToken = async(code: string, codeVerifier: string): Promise<
         throw new Error("fail to fetch token")
     }
 }
+
+export const logout = () => {
+    try {
+        localStorage.removeItem("access_token");
+        localStorage.removeItem("code_verifier");
+        window.location.href = "/";
+    } catch (error) {
+        throw new Error("Logout failed");
+    }
+    
+}
