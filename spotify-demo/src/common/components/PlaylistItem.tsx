@@ -10,13 +10,12 @@ interface PlaylistItemProps {
 
 const PlaylistItemContainer = styled(ListItemButton)(({theme, selected}) => ({
     padding: "8px",
-    gap: "2px",
 }));
 
 const PlaylistAvatar = styled(Avatar)({
     width: "48px",
     height: "48px",
-    borderRadius: "8px",
+    borderRadius: "4px",
 });
 
 const PlaylistItem = ({ playlist, handleClick, selected }: PlaylistItemProps) => {

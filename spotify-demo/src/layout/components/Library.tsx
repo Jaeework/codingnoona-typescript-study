@@ -12,10 +12,24 @@ const PlaylistContainer = styled("div")(({ theme }) => ({
   height: "100%",
   overflowY: "auto",
   maxHeight: "calc(100vh - 240px)",
+
   "&::-webkit-scrollbar": {
-    display: "none",
-    msOverflowStyle: "none",
-    scrollbarWidth: "none",
+    width: "12px",
+  },
+  "&::-webkit-scrollbar-track": {
+    background: "transparent",
+  },
+  "&::-webkit-scrollbar-thumb": {
+    backgroundColor: "transparent",
+    borderRadius: "0px",
+    border: "2px solid transparent",
+    transition: "backgroundColor 0.2s ease",
+  },
+  "&:hover::-webkit-scrollbar-thumb": {
+    backgroundColor: "rgba(255, 255, 255, 0.3)",
+  },
+  "&::-webkit-scrollbar-thumb:hover": {
+    backgroundColor: "rgba(255, 255, 255, 0.5)",
   }
 }));
 
