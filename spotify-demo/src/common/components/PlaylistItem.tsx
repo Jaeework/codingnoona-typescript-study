@@ -10,6 +10,7 @@ interface PlaylistItemProps {
 
 const PlaylistItemContainer = styled(ListItemButton)(({theme, selected}) => ({
     padding: "8px",
+    gap: "2px",
 }));
 
 const PlaylistAvatar = styled(Avatar)({
@@ -25,7 +26,11 @@ const PlaylistItem = ({ playlist, handleClick, selected }: PlaylistItemProps) =>
         selected={selected || false}
     >
         <ListItemAvatar>
-          {playlist.images?.[0] ? <PlaylistAvatar alt={playlist.name} src={playlist.images?.[0].url} /> : "No image"}
+          {playlist.images?.[0] 
+          ? <PlaylistAvatar alt={playlist.name} src={playlist.images?.[0].url} /> 
+          : <PlaylistAvatar alt="No Image">
+                <Typography textAlign="center">No Image</Typography>
+            </PlaylistAvatar>}
         </ListItemAvatar>
         <ListItemText
           primary={<Typography fontWeight="bold">
