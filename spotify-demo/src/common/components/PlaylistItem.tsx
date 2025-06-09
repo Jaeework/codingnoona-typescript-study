@@ -17,7 +17,7 @@ const PlaylistAvatar = styled(Avatar)({
     width: "48px",
     height: "48px",
     borderRadius: "8px",
-})
+});
 
 const PlaylistItem = ({ playlist, handleClick, selected }: PlaylistItemProps) => {
   return (
@@ -33,7 +33,7 @@ const PlaylistItem = ({ playlist, handleClick, selected }: PlaylistItemProps) =>
             </PlaylistAvatar>}
         </ListItemAvatar>
         <ListItemText
-          primary={<Typography fontWeight="bold">
+          primary={<Typography color={selected ? "primary" : ""}>
             {playlist.name}
           </Typography>}
           secondary={

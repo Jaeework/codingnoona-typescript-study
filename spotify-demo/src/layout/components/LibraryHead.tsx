@@ -1,4 +1,4 @@
-import { Add, Bookmark } from '@mui/icons-material'
+import { Add, VideoLibraryOutlined } from '@mui/icons-material'
 import { Box, Button, styled, Typography } from '@mui/material'
 
 const Head = styled("div")({
@@ -12,9 +12,9 @@ const LibraryHead = () => {
     return (
         <Head>
             <Box display="flex" gap={2} alignItems="center">
-                <Bookmark />
-                <Typography variant="h2" fontWeight={700}>
-                    Your Library
+                <VideoLibraryOutlined />
+                <Typography variant="h2" fontWeight={600}>
+                    My Library
                 </Typography>
                 <Button>
                     <Add color="primary" />

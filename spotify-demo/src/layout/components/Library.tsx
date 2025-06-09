@@ -1,28 +1,53 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import EmptyPlaylist from './EmptyPlaylist'
-import useGetCurrentUserPlaylists from '../../hooks/useGetCurrentUserPalylists';
 import Playlist from './Playlist';
 import LoadingSpinner from '../../common/components/LoadingSpinner';
+import { styled } from '@mui/material';
+import useGetCurrentUserProfile from '../../hooks/useGetCurrentUserProfile';
+import ErrorMessage from '../../common/components/ErrorMessage';
+import useGetCurrentUserPlaylists from '../../hooks/useGetCurrentUserPlaylists';
+import { useInView } from 'react-intersection-observer';
+
+const PlaylistContainer = styled("div")(({ theme }) => ({
+  height: "100%",
+  overflowY: "auto",
+  maxHeight: "calc(100vh - 240px)",
+  "&::-webkit-scrollbar": {
+    display: "none",
+    msOverflowStyle: "none",
+    scrollbarWidth: "none",
+  }
+}));
 
 const Library = () => {
-  
-  const {data, isLoading} = useGetCurrentUserPlaylists({limit:10, offset: 0});
-  console.log("ddd", data);
+  const { ref, inView } = useInView();
+  const { data, isLoading, error, hasNextPage, isFetchingNextPage, fetchNextPage } = useGetCurrentUserPlaylists({ limit: 10, offset: 0 });
+  const { data: user } = useGetCurrentUserProfile();
+  useEffect(() => {
+    if (inView && hasNextPage && !isFetchingNextPage) {
+      fetchNextPage();
+    }
+  })
 
-  if(isLoading) return <LoadingSpinner />;
+  if (!user) return <EmptyPlaylist />
+  if (isLoading) return <LoadingSpinner />;
+  if (error) return <ErrorMessage errorMessage={error.message} />
 
   return (
     <div>
-      {!data || data?.total === 0
-      ? (<EmptyPlaylist />)
-      :
+      {!data || data?.pages[0].total === 0
+        ? (<EmptyPlaylist />)
+        :
         (
-         <div>
-          <Playlist playlists={data.items} />
-         </div> 
+          <PlaylistContainer>
+            {data?.pages.map((page, index) => (
+              <Playlist playlists={page.items} key={index} />
+            ))}
+            <div ref={ref}>{isFetchingNextPage && <LoadingSpinner />}</div>
+          </PlaylistContainer>
         )
       }
-        
+
     </div>
   )
 }
