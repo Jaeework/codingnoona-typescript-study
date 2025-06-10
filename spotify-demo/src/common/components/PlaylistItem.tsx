@@ -8,9 +8,10 @@ interface PlaylistItemProps {
     selected?: boolean;
 }
 
-const PlaylistItemContainer = styled(ListItemButton)(({theme, selected}) => ({
+const PlaylistItemContainer = styled(ListItemButton)({
     padding: "8px",
-}));
+    borderRadius: "4px",
+});
 
 const PlaylistAvatar = styled(Avatar)({
     width: "48px",

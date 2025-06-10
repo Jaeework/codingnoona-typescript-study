@@ -14,7 +14,7 @@ const Layout = styled("div")({
 });
 
 const Sidebar = styled("div")(({ theme }) => ({
-  width: "331px",
+  width: "420px",
   height: "100%",
   display: "flex",
   flexDirection: "column",
@@ -44,9 +44,12 @@ const StyledNavLink = styled(NavLink)(({ theme }) => ({
   display: "flex",
   alignItems: "center",
   gap: "20px",
+  padding: "10px 8px",
   color: theme.palette.text.secondary,
   "&:hover": {
-    color: theme.palette.text.primary
+    color: theme.palette.text.primary,
+    backgroundColor: theme.palette.action.hover,
+    borderRadius: "4px",
   },
   "&.active": {
     color: theme.palette.text.primary

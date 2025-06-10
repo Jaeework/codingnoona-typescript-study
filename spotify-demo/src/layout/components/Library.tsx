@@ -8,7 +8,7 @@ import ErrorMessage from '../../common/components/ErrorMessage';
 import useGetCurrentUserPlaylists from '../../hooks/useGetCurrentUserPlaylists';
 import { useInView } from 'react-intersection-observer';
 
-const PlaylistContainer = styled("div")(({ theme }) => ({
+const PlaylistContainer = styled("div")({
   height: "100%",
   overflowY: "auto",
   maxHeight: "calc(100vh - 240px)",
@@ -31,7 +31,7 @@ const PlaylistContainer = styled("div")(({ theme }) => ({
   "&::-webkit-scrollbar-thumb:hover": {
     backgroundColor: "rgba(255, 255, 255, 0.5)",
   }
-}));
+});
 
 const Library = () => {
   const { ref, inView } = useInView();
