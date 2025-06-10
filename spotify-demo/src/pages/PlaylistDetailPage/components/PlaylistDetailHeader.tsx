@@ -7,16 +7,12 @@ interface PlaylistHeaderProps {
     playlist: Playlist
 }
 
-const PlaylistHeader = styled(Grid)(({theme}) => ({
+const PlaylistHeader = styled(Grid)({
     display: "flex",
     alignItems: "flex-end",
     background: "linear-gradient(180deg, rgba(64, 64, 64, 1) 0%, rgba(32, 32, 32, 1) 100%)",
     padding: "16px",
-
-    // [theme.breakpoints.down("md")] : {
-    //     alignItems: "center",
-    // }
-}));
+});
 
 const ImageGrid = styled(Grid)(({ theme }) => ({
     [theme.breakpoints.down("sm")]: {
@@ -28,8 +24,8 @@ const ImageGrid = styled(Grid)(({ theme }) => ({
 
 const PlaylistImage = styled("img")(({ theme }) => ({
     borderRadius: "4px",
-    height: "auto",
     width: "100%",
+    aspectRatio: "1",
     display: "block",
 
     [theme.breakpoints.down("md")]: {

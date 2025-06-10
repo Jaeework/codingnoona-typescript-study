@@ -1,4 +1,5 @@
 import React from 'react'
+import MusicNoteIcon from "@mui/icons-material/MusicNote";
 import { SimplifiedPlaylist } from '../../models/playlist'
 import { Avatar, ListItemAvatar, ListItemButton, ListItemText, styled, Typography } from '@mui/material';
 
@@ -29,7 +30,7 @@ const PlaylistItem = ({ playlist, handleClick, selected }: PlaylistItemProps) =>
           {playlist.images?.[0] 
           ? <PlaylistAvatar alt={playlist.name} src={playlist.images?.[0].url} /> 
           : <PlaylistAvatar alt="No Image">
-                <Typography textAlign="center">No Image</Typography>
+                <MusicNoteIcon color="secondary" />
             </PlaylistAvatar>}
         </ListItemAvatar>
         <ListItemText
