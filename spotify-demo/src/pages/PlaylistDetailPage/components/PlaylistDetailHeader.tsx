@@ -25,6 +25,7 @@ const ImageGrid = styled(Grid)(({ theme }) => ({
 const PlaylistImage = styled("img")(({ theme }) => ({
     borderRadius: "4px",
     width: "100%",
+    maxWidth: "300px",
     aspectRatio: "1",
     display: "block",
 
