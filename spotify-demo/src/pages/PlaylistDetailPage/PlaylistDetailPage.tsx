@@ -11,7 +11,7 @@ const PlaylistDetailPage = () => {
 
   return (
     <div>
-      <PlaylistDetailHeader />
+      <PlaylistDetailHeader playlist={playlist} />
     </div>
   )
 }
