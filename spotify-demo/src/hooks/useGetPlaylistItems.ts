@@ -1,8 +1,9 @@
 import { InfiniteData, useInfiniteQuery, UseInfiniteQueryResult } from "@tanstack/react-query"
 import { GetPlaylistItemsRequest, GetPlaylistItemsResponse } from "../models/playlist";
 import { getPlaylistItems } from "../apis/playlistApi";
+import { AxiosError } from "axios";
 
-const useGetPlaylistItems = (params: GetPlaylistItemsRequest): UseInfiniteQueryResult<InfiniteData<GetPlaylistItemsResponse, unknown>, Error> => {
+const useGetPlaylistItems = (params: GetPlaylistItemsRequest): UseInfiniteQueryResult<InfiniteData<GetPlaylistItemsResponse, unknown>, AxiosError> => {
     return useInfiniteQuery({
         queryKey: ['playlist-items', params],
         queryFn: ({pageParam = 0}) => {

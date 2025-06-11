@@ -4,11 +4,12 @@ import { Navigate, useParams } from 'react-router'
 import PlaylistDetailHeader from './components/PlaylistDetailHeader';
 import LoadingSpinner from '../../common/components/LoadingSpinner';
 import useGetPlaylistItems from '../../hooks/useGetPlaylistItems';
-import { styled, Table, TableBody, TableCell, TableHead, TableRow, Typography } from '@mui/material';
+import { Box, styled, Table, TableBody, TableCell, TableHead, TableRow, Typography } from '@mui/material';
 import DesktopPlaylistItem from './components/DesktopPlaylistItem';
 import { PAGE_LIMIT } from '../../configs/commonConfig';
 import { useInView } from 'react-intersection-observer';
 import ErrorMessage from '../../common/components/ErrorMessage';
+import LoginButton from '../../common/components/LoginButton';
 
 const PlaylistContainer = styled("div")(({ theme }) => ({
   height: "100%",
@@ -40,7 +41,7 @@ const PlaylistDetailPage = () => {
   const { ref, inView } = useInView();
   const { id } = useParams<{ id: string }>();
   if (id === undefined) return <Navigate to="/" />;
-  const { data: playlist, isLoading: isPlaylistLoading } = useGetPlaylist({ playlist_id: id });
+  const { data: playlist, isLoading: isPlaylistLoading, error } = useGetPlaylist({ playlist_id: id });
 
   const {
     data: playlistItems,
@@ -50,6 +51,7 @@ const PlaylistDetailPage = () => {
     isFetchingNextPage,
     fetchNextPage 
   } = useGetPlaylistItems({ playlist_id: id, limit: PAGE_LIMIT });
+  
   console.log('playlist', playlist);
 
   useEffect(() => {
@@ -59,7 +61,27 @@ const PlaylistDetailPage = () => {
   })
 
   if (isPlaylistLoading || isPlaylistItemsLoading) return <LoadingSpinner />
-  if (playlistItemsError) return <ErrorMessage errorMessage={playlistItemsError.message} />
+  if (playlistItemsError) {
+    if(playlistItemsError?.status === 401) {
+      return (
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            height: "100%",
+            flexDirection: "column",
+          }}
+        >
+          <Typography variant="h2" fontWeight={500} mb={2}>
+            다시 로그인 하세요
+          </Typography>
+          <LoginButton />
+        </Box>
+      );
+    }
+    return <ErrorMessage errorMessage="Fail to load playlist" />
+  } 
 
   return (
     <PlaylistContainer>

@@ -65,3 +65,9 @@ export interface PlaylistTrack {
     track: Track | Episode;
 }
 
+export interface CreatePlaylistRequest {
+    name: string;
+    playlistPublic?: boolean;
+    collaborative?: boolean;
+    description?: string;
+}
