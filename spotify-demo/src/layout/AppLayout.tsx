@@ -14,7 +14,6 @@ const Layout = styled("div")({
 });
 
 const Sidebar = styled("div")(({ theme }) => ({
-  width: "420px",
   height: "100%",
   display: "flex",
   flexDirection: "column",

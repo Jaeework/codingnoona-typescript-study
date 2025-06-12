@@ -1,3 +1,4 @@
+import { AxiosError } from "axios";
 import { CreatePlaylistRequest, GetCurrentUserPlaylistRequest, GetCurrentUserPlaylistResponse, GetPlaylistItemsRequest, GetPlaylistItemsResponse, GetPlaylistRequest, Playlist } from "../models/playlist";
 import api from "../utils/api";
 
@@ -8,6 +9,9 @@ export const getCurrentUserPlaylists = async ({limit, offset}: GetCurrentUserPla
         })
         return response.data;
     } catch (error) {
+        if(error instanceof AxiosError && error.status === 401) {
+            throw error;
+        }
         throw new Error("fail to fetch current user playlists");
     }
 }
@@ -19,6 +23,9 @@ export const getPlaylist = async (params: GetPlaylistRequest): Promise<Playlist>
         });
         return response.data;
     } catch (error) {
+        if(error instanceof AxiosError && error.status === 401) {
+            throw error;
+        }
         throw new Error("fail to fetch playlist detail");
     }
 }
@@ -30,8 +37,10 @@ export const getPlaylistItems = async (params: GetPlaylistItemsRequest): Promise
         });
         return response.data;
     } catch (error) {
-        throw error;
-        // throw new Error("fail to fetch playlist items");
+        if(error instanceof AxiosError && error.status === 401) {
+            throw error;
+        }
+        throw new Error("fail to fetch playlist items");
     }
 }
 

@@ -10,6 +10,8 @@ import { PAGE_LIMIT } from '../../configs/commonConfig';
 import { useInView } from 'react-intersection-observer';
 import ErrorMessage from '../../common/components/ErrorMessage';
 import LoginButton from '../../common/components/LoginButton';
+import EmptyPlaylistWithSearch from './components/EmptyPlaylistWithSearch';
+import { AxiosError } from 'axios';
 
 const PlaylistContainer = styled("div")(({ theme }) => ({
   height: "100%",
@@ -81,8 +83,8 @@ const PlaylistDetailPage = () => {
   })
 
   if (isPlaylistLoading || isPlaylistItemsLoading) return <LoadingSpinner />
-  if (playlistItemsError) {
-    if(playlistItemsError?.status === 401) {
+  if (error || playlistItemsError) {
+    if(error instanceof AxiosError || playlistItemsError instanceof AxiosError) {
       return (
         <Box
           sx={{

@@ -7,6 +7,7 @@ import useGetCurrentUserProfile from '../../hooks/useGetCurrentUserProfile';
 import ErrorMessage from '../../common/components/ErrorMessage';
 import useGetCurrentUserPlaylists from '../../hooks/useGetCurrentUserPlaylists';
 import { useInView } from 'react-intersection-observer';
+import { AxiosError } from 'axios';
 
 const PlaylistContainer = styled("div")({
   height: "100%",
@@ -45,7 +46,10 @@ const Library = () => {
 
   if (!user) return <EmptyPlaylist />
   if (isLoading) return <LoadingSpinner />;
-  if (error) return <ErrorMessage errorMessage={error.message} />
+  if (error) {
+    if(error instanceof AxiosError) return <EmptyPlaylist /> 
+    return <ErrorMessage errorMessage={error.message} />
+  } 
 
   return (
     <div>
