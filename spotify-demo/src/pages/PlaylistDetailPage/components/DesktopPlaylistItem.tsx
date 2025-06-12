@@ -17,7 +17,34 @@ const PlaylistItemRow = styled(TableRow)(({theme}) => ({
 const TableCellNoUnderline = styled(TableCell)({
   border: "none",
   textAlign: "left",
-  padding: "15px",
+  padding: "20px",
+});
+
+const IndexTableCell = styled(TableCellNoUnderline)({
+  width: "60px", // # 컬럼
+});
+
+const TitleTableCell = styled(TableCellNoUnderline)({
+  width: "40%", // Title 컬럼
+  // 텍스트가 넘칠 경우 처리
+  overflow: "hidden",
+  textOverflow: "ellipsis",
+  whiteSpace: "nowrap",
+});
+
+const AlbumTableCell = styled(TableCellNoUnderline)({
+  width: "30%", // Album 컬럼
+  overflow: "hidden",
+  textOverflow: "ellipsis",
+  whiteSpace: "nowrap",
+});
+
+const DateTableCell = styled(TableCellNoUnderline)({
+  width: "120px", // Date Added 컬럼
+});
+
+const DurationTableCell = styled(TableCellNoUnderline)({
+  width: "80px", // Duration 컬럼
 });
 
 const DesktopPlaylistItem = ({ item, index }: DesktopPlaylistItemProps) => {
@@ -34,19 +61,19 @@ const DesktopPlaylistItem = ({ item, index }: DesktopPlaylistItemProps) => {
 
   return (
     <PlaylistItemRow>
-      <TableCellNoUnderline>
+      <IndexTableCell>
         <Typography>
           {index}
         </Typography>
-      </TableCellNoUnderline>
-      <TableCellNoUnderline>
+      </IndexTableCell>
+      <TitleTableCell>
         <Typography>
           {item.track.name || "no name"}
         </Typography>  
-      </TableCellNoUnderline>
-      <TableCellNoUnderline>{isEpisode(item.track) ? "N/A" : item.track.album?.name}</TableCellNoUnderline>
-      <TableCellNoUnderline>{item.added_at ? new Date(item.added_at).toISOString().split('T')[0] : "Unknown"}</TableCellNoUnderline>
-      <TableCellNoUnderline>{item.track.duration_ms ? formatDuration(item.track.duration_ms) : "Unknown"}</TableCellNoUnderline>
+      </TitleTableCell>
+      <AlbumTableCell>{isEpisode(item.track) ? "N/A" : item.track.album?.name}</AlbumTableCell>
+      <DateTableCell>{item.added_at ? new Date(item.added_at).toISOString().split('T')[0] : "Unknown"}</DateTableCell>
+      <DurationTableCell>{item.track.duration_ms ? formatDuration(item.track.duration_ms) : "Unknown"}</DurationTableCell>
     </PlaylistItemRow>
   )
 }

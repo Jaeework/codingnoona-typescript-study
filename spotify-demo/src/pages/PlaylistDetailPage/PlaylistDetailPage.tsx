@@ -14,7 +14,7 @@ import LoginButton from '../../common/components/LoginButton';
 const PlaylistContainer = styled("div")(({ theme }) => ({
   height: "100%",
   overflowY: "auto",
-  maxHeight: "calc(100vh - 140px)",
+  maxHeight: "calc(100vh - 450px)",
 
   "&::-webkit-scrollbar": {
     width: "12px",
@@ -36,6 +36,26 @@ const PlaylistContainer = styled("div")(({ theme }) => ({
   }
 
 }));
+
+const IndexTableCell = styled(TableCell)({
+  width: "60px", // # 컬럼
+});
+
+const TitleTableCell = styled(TableCell)({
+  width: "40%", // Title 컬럼
+});
+
+const AlbumTableCell = styled(TableCell)({
+  width: "30%", // Album 컬럼
+});
+
+const DateTableCell = styled(TableCell)({
+  width: "120px", // Date Added 컬럼
+});
+
+const DurationTableCell = styled(TableCell)({
+  width: "80px", // Duration 컬럼
+});
 
 const PlaylistDetailPage = () => {
   const { ref, inView } = useInView();
@@ -84,37 +104,38 @@ const PlaylistDetailPage = () => {
   } 
 
   return (
-    <PlaylistContainer>
+    <div>
       <PlaylistDetailHeader playlist={playlist} />
       {playlist?.tracks?.total === 0
         ? <Typography>써치</Typography>
-        : <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>#</TableCell>
-              <TableCell>Title</TableCell>
-              <TableCell>Album</TableCell>
-              <TableCell>Date Added</TableCell>
-              <TableCell>Duration</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {playlistItems?.pages.map((page, pageIndex) => page.items.map((item, itemIndex) => {
-              return (
-                <DesktopPlaylistItem
-                  item={item}
-                  key={pageIndex * PAGE_LIMIT + itemIndex + 1}
-                  index={pageIndex * PAGE_LIMIT + itemIndex + 1} />)
-            }))}
-            <TableRow ref={ref}>
-              <TableCell sx={{ border: "none" }}>
-                {isFetchingNextPage && <LoadingSpinner />}
-              </TableCell>
-            </TableRow>
-          </TableBody>
-        </Table>
+        : <PlaylistContainer>
+            <Table sx={{ tableLayout: "fixed", width: "100%",}}>
+              <TableHead>
+                <TableRow>
+                  <IndexTableCell>#</IndexTableCell>
+                  <TitleTableCell>Title</TitleTableCell>
+                  <AlbumTableCell>Album</AlbumTableCell>
+                  <DateTableCell>Date Added</DateTableCell>
+                  <DurationTableCell>Duration</DurationTableCell>
+                </TableRow>
+              </TableHead>
+                <TableBody>
+                  {playlistItems?.pages.map((page, pageIndex) => page.items.map((item, itemIndex) => {
+                    return (
+                      <DesktopPlaylistItem
+                        item={item}
+                        key={pageIndex * PAGE_LIMIT + itemIndex + 1}
+                        index={pageIndex * PAGE_LIMIT + itemIndex + 1} />)
+                  }))}
+                  <TableRow ref={ref} style={{ height: "5px"}}>
+                      {isFetchingNextPage && <LoadingSpinner />}
+                  </TableRow>
+                </TableBody>
+            </Table>
+          </PlaylistContainer>
+
       }
-    </PlaylistContainer>
+    </div>
   )
 }
 
