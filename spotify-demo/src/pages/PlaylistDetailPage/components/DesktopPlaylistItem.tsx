@@ -8,7 +8,7 @@ interface DesktopPlaylistItemProps {
   item: PlaylistTrack;
 }
 
-const PlaylistItemRow = styled(TableRow)(({theme}) => ({
+const PlaylistItemRow = styled(TableRow)(({ theme }) => ({
   "&:hover": {
     backgroundColor: theme.palette.action.hover,
   }
@@ -17,38 +17,16 @@ const PlaylistItemRow = styled(TableRow)(({theme}) => ({
 const TableCellNoUnderline = styled(TableCell)({
   border: "none",
   textAlign: "left",
-  padding: "20px",
 });
 
-const IndexTableCell = styled(TableCellNoUnderline)({
-  width: "60px", // # 컬럼
-});
-
-const TitleTableCell = styled(TableCellNoUnderline)({
-  width: "40%", // Title 컬럼
-  // 텍스트가 넘칠 경우 처리
+const TypographyEllipsis = styled(Typography)({
   overflow: "hidden",
   textOverflow: "ellipsis",
   whiteSpace: "nowrap",
-});
-
-const AlbumTableCell = styled(TableCellNoUnderline)({
-  width: "30%", // Album 컬럼
-  overflow: "hidden",
-  textOverflow: "ellipsis",
-  whiteSpace: "nowrap",
-});
-
-const DateTableCell = styled(TableCellNoUnderline)({
-  width: "120px", // Date Added 컬럼
-});
-
-const DurationTableCell = styled(TableCellNoUnderline)({
-  width: "80px", // Duration 컬럼
 });
 
 const DesktopPlaylistItem = ({ item, index }: DesktopPlaylistItemProps) => {
-  const isEpisode = (track:Track | Episode) => {
+  const isEpisode = (track: Track | Episode) => {
     return "description" in track ? true : false;
   }
 
@@ -61,19 +39,27 @@ const DesktopPlaylistItem = ({ item, index }: DesktopPlaylistItemProps) => {
 
   return (
     <PlaylistItemRow>
-      <IndexTableCell>
+      <TableCellNoUnderline sx={{ display: { xs: "none", md: "table-cell" } }}>
         <Typography>
           {index}
         </Typography>
-      </IndexTableCell>
-      <TitleTableCell>
-        <Typography>
+      </TableCellNoUnderline>
+      <TableCellNoUnderline>
+        <TypographyEllipsis>
           {item.track.name || "no name"}
-        </Typography>  
-      </TitleTableCell>
-      <AlbumTableCell>{isEpisode(item.track) ? "N/A" : item.track.album?.name}</AlbumTableCell>
-      <DateTableCell>{item.added_at ? new Date(item.added_at).toISOString().split('T')[0] : "Unknown"}</DateTableCell>
-      <DurationTableCell>{item.track.duration_ms ? formatDuration(item.track.duration_ms) : "Unknown"}</DurationTableCell>
+        </TypographyEllipsis>
+      </TableCellNoUnderline>
+      <TableCellNoUnderline sx={{
+        display: { xs: "none", md: "table-cell" }
+      }}>
+        <TypographyEllipsis>
+          {isEpisode(item.track) ? "N/A" : item.track.album?.name}
+        </TypographyEllipsis>
+      </TableCellNoUnderline>
+      <TableCellNoUnderline sx={{ display: { xs: "none", md: "table-cell" } }}>
+        {item.added_at ? new Date(item.added_at).toISOString().split('T')[0] : "Unknown"}
+      </TableCellNoUnderline>
+      <TableCellNoUnderline>{item.track.duration_ms ? formatDuration(item.track.duration_ms) : "Unknown"}</TableCellNoUnderline>
     </PlaylistItemRow>
   )
 }

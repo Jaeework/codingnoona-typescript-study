@@ -62,7 +62,7 @@ export const logout = () => {
     try {
         localStorage.removeItem("access_token");
         localStorage.removeItem("code_verifier");
-        window.location.href = "/";
+        window.location.reload();
     } catch (error) {
         throw new Error("Logout failed");
     }

@@ -4,7 +4,7 @@ import { Navigate, useParams } from 'react-router'
 import PlaylistDetailHeader from './components/PlaylistDetailHeader';
 import LoadingSpinner from '../../common/components/LoadingSpinner';
 import useGetPlaylistItems from '../../hooks/useGetPlaylistItems';
-import { Box, styled, Table, TableBody, TableCell, TableHead, TableRow, Typography } from '@mui/material';
+import { Box, Paper, styled, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material';
 import DesktopPlaylistItem from './components/DesktopPlaylistItem';
 import { PAGE_LIMIT } from '../../configs/commonConfig';
 import { useInView } from 'react-intersection-observer';
@@ -13,10 +13,16 @@ import LoginButton from '../../common/components/LoginButton';
 import EmptyPlaylistWithSearch from './components/EmptyPlaylistWithSearch';
 import { AxiosError } from 'axios';
 
-const PlaylistContainer = styled("div")(({ theme }) => ({
-  height: "100%",
+const DetailPageContainer = styled("div")({
+  display: "flex",
+  flexDirection: "column",
+  overflow: "hidden",
+  height: "calc(100vh - 120px)",
+})
+
+const PlaylistContainer = styled(Box)(({ theme }) => ({
+  flex: 1,
   overflowY: "auto",
-  maxHeight: "calc(100vh - 450px)",
 
   "&::-webkit-scrollbar": {
     width: "12px",
@@ -39,26 +45,6 @@ const PlaylistContainer = styled("div")(({ theme }) => ({
 
 }));
 
-const IndexTableCell = styled(TableCell)({
-  width: "60px", // # 컬럼
-});
-
-const TitleTableCell = styled(TableCell)({
-  width: "40%", // Title 컬럼
-});
-
-const AlbumTableCell = styled(TableCell)({
-  width: "30%", // Album 컬럼
-});
-
-const DateTableCell = styled(TableCell)({
-  width: "120px", // Date Added 컬럼
-});
-
-const DurationTableCell = styled(TableCell)({
-  width: "80px", // Duration 컬럼
-});
-
 const PlaylistDetailPage = () => {
   const { ref, inView } = useInView();
   const { id } = useParams<{ id: string }>();
@@ -71,9 +57,9 @@ const PlaylistDetailPage = () => {
     error: playlistItemsError,
     hasNextPage,
     isFetchingNextPage,
-    fetchNextPage 
+    fetchNextPage
   } = useGetPlaylistItems({ playlist_id: id, limit: PAGE_LIMIT });
-  
+
   console.log('playlist', playlist);
 
   useEffect(() => {
@@ -84,7 +70,7 @@ const PlaylistDetailPage = () => {
 
   if (isPlaylistLoading || isPlaylistItemsLoading) return <LoadingSpinner />
   if (error || playlistItemsError) {
-    if(error instanceof AxiosError || playlistItemsError instanceof AxiosError) {
+    if (error instanceof AxiosError || playlistItemsError instanceof AxiosError) {
       return (
         <Box
           sx={{
@@ -96,48 +82,51 @@ const PlaylistDetailPage = () => {
           }}
         >
           <Typography variant="h2" fontWeight={500} mb={2}>
-            다시 로그인 하세요
+            로그인이 필요한 페이지입니다.
           </Typography>
           <LoginButton />
         </Box>
       );
     }
     return <ErrorMessage errorMessage="Fail to load playlist" />
-  } 
+  }
 
   return (
-    <div>
+    <DetailPageContainer>
+
       <PlaylistDetailHeader playlist={playlist} />
       {playlist?.tracks?.total === 0
-        ? <Typography>써치</Typography>
+        ? <EmptyPlaylistWithSearch />
         : <PlaylistContainer>
-            <Table sx={{ tableLayout: "fixed", width: "100%",}}>
-              <TableHead>
-                <TableRow>
-                  <IndexTableCell>#</IndexTableCell>
-                  <TitleTableCell>Title</TitleTableCell>
-                  <AlbumTableCell>Album</AlbumTableCell>
-                  <DateTableCell>Date Added</DateTableCell>
-                  <DurationTableCell>Duration</DurationTableCell>
-                </TableRow>
-              </TableHead>
-                <TableBody>
-                  {playlistItems?.pages.map((page, pageIndex) => page.items.map((item, itemIndex) => {
-                    return (
-                      <DesktopPlaylistItem
-                        item={item}
-                        key={pageIndex * PAGE_LIMIT + itemIndex + 1}
-                        index={pageIndex * PAGE_LIMIT + itemIndex + 1} />)
-                  }))}
-                  <TableRow ref={ref} style={{ height: "5px"}}>
-                      {isFetchingNextPage && <LoadingSpinner />}
-                  </TableRow>
-                </TableBody>
-            </Table>
-          </PlaylistContainer>
-
+          <Table sx={{ width: "100%" }}>
+            <TableHead>
+              <TableRow>
+                <TableCell sx={{ display: { xs: "none", md: "table-cell" }, width: "60px", }}>#</TableCell>
+                <TableCell>Title</TableCell>
+                <TableCell sx={{
+                  display: { xs: "none", md: "table-cell" }
+                }}>Album</TableCell>
+                <TableCell sx={{ display: { xs: "none", md: "table-cell", width: "120px" } }}>Date Added</TableCell>
+                <TableCell sx={{width: "80px"}}>Duration</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {playlistItems?.pages.map((page, pageIndex) => page.items.map((item, itemIndex) => {
+                return (
+                  <DesktopPlaylistItem
+                    item={item}
+                    key={pageIndex * PAGE_LIMIT + itemIndex + 1}
+                    index={pageIndex * PAGE_LIMIT + itemIndex + 1} />)
+              }))}
+            </TableBody>
+          </Table>
+          {hasNextPage &&
+            <div ref={ref} style={{ height: "5px" }}>
+              {isFetchingNextPage && <LoadingSpinner />}
+            </div>}
+        </PlaylistContainer>
       }
-    </div>
+    </DetailPageContainer>
   )
 }
 
