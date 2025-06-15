@@ -2,6 +2,7 @@ import { Box, Button, styled, TableCell, TableRow, Typography } from "@mui/mater
 import { Track } from "../../../models/track";
 import useAddPlaylistItems from "../../../hooks/useAddPlaylistItems";
 import { useParams } from "react-router";
+import LoadingSpinner from "../../../common/components/LoadingSpinner";
 
 interface SearchResultItemProps {
     track: Track;
@@ -53,7 +54,7 @@ const SearchResultItem = ({ track }: SearchResultItemProps) => {
     const addToPlaylistMutation = useAddPlaylistItems();
     const handleAddToPlaylist = () => {
         console.log("Add playlist:", track.name);
-        if(!id) return;
+        if(!id || !track.uri) return;
 
         addToPlaylistMutation.mutate({
             playlist_id: id,
@@ -93,7 +94,12 @@ const SearchResultItem = ({ track }: SearchResultItemProps) => {
                 display: { xs: "none", md: "table-cell" }
             }}>{track.album?.name || "Unknown Album"}</TableCell>
             <TableCell>
-                <Button onClick={handleAddToPlaylist}>추가하기</Button>
+                <Button 
+                    onClick={handleAddToPlaylist}
+                    disabled={addToPlaylistMutation.isPending}
+                    >
+                        {addToPlaylistMutation.isPending ? <LoadingSpinner /> : "추가하기"}
+                    </Button>
             </TableCell>
         </SearchResultTableRow>
     );
