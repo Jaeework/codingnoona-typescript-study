@@ -1,5 +1,5 @@
 import { AxiosError } from "axios";
-import { CreatePlaylistRequest, GetCurrentUserPlaylistRequest, GetCurrentUserPlaylistResponse, GetPlaylistItemsRequest, GetPlaylistItemsResponse, GetPlaylistRequest, Playlist } from "../models/playlist";
+import { AddPlaylistItemsRequest, CreatePlaylistRequest, GetCurrentUserPlaylistRequest, GetCurrentUserPlaylistResponse, GetPlaylistItemsRequest, GetPlaylistItemsResponse, GetPlaylistRequest, Playlist } from "../models/playlist";
 import api from "../utils/api";
 
 export const getCurrentUserPlaylists = async ({limit, offset}: GetCurrentUserPlaylistRequest): Promise<GetCurrentUserPlaylistResponse> => {
@@ -56,5 +56,20 @@ export const createPlaylist = async (user_id: string, params: CreatePlaylistRequ
         return response.data;
     } catch (error) {
         throw new Error("fail to create playlist");
+    }
+}
+
+export const addPlaylistItems = async (params: AddPlaylistItemsRequest) => {
+    try {
+        const {playlist_id, uris, position} = params;
+        const response = await api.post(`/playlists/${playlist_id}/tracks`, {
+            uris: uris,
+            position: position
+           })
+        
+        return response.data;
+        
+    } catch (error) {
+        throw new Error("fail to add playlist items");
     }
 }

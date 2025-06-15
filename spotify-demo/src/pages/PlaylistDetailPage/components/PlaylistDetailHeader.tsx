@@ -25,7 +25,7 @@ const ImageGrid = styled(Grid)(({ theme }) => ({
 const PlaylistImage = styled("img")(({ theme }) => ({
     borderRadius: "4px",
     width: "100%",
-    maxWidth: "300px",
+    maxWidth: "200px",
     aspectRatio: "1",
     display: "block",
 
@@ -40,7 +40,7 @@ const DefaultImage = styled(Box)(({theme}) => ({
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    width: "300px",
+    width: "200px",
     aspectRatio: "1",
 
     [theme.breakpoints.down("md")]: {

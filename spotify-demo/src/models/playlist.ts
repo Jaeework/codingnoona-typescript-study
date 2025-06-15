@@ -71,3 +71,9 @@ export interface CreatePlaylistRequest {
     collaborative?: boolean;
     description?: string;
 }
+
+export interface AddPlaylistItemsRequest {
+    playlist_id: string;
+    position?: number;
+    uris? : string[];
+}

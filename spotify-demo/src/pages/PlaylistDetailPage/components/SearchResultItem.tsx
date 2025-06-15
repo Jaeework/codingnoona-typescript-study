@@ -1,5 +1,7 @@
 import { Box, Button, styled, TableCell, TableRow, Typography } from "@mui/material";
 import { Track } from "../../../models/track";
+import useAddPlaylistItems from "../../../hooks/useAddPlaylistItems";
+import { useParams } from "react-router";
 
 interface SearchResultItemProps {
     track: Track;
@@ -47,8 +49,16 @@ const ResultArtistTypo = styled(Typography)(({ theme }) => ({
 }));
 
 const SearchResultItem = ({ track }: SearchResultItemProps) => {
+    const { id } = useParams<{ id: string }>();
+    const addToPlaylistMutation = useAddPlaylistItems();
     const handleAddToPlaylist = () => {
         console.log("Add playlist:", track.name);
+        if(!id) return;
+
+        addToPlaylistMutation.mutate({
+            playlist_id: id,
+            uris: [track.uri]
+        });
     };
 
     return (
