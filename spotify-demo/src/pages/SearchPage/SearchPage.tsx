@@ -8,6 +8,8 @@ import { AxiosError } from 'axios';
 import { useInView } from 'react-intersection-observer';
 
 const CategoryContainer = styled(Grid)({
+  width: "95%",
+  margin: "10px auto",
   flex: 1,
   overflowY: "auto",
   minHeight: 0,
